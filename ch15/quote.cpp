@@ -2,10 +2,13 @@
 #include <iostream>
 #include "quote.h"
 
-using namespace std;
+using std::cout;
+using std::endl;
+using std::ostream;
 
 double BulkQuote::net_price(std::size_t n) const
 {
+    cout << "BulkQuote net price fun" << endl;
     if (n >= m_quantity)
     {
         return n * (1 - m_discount) * m_price;
@@ -24,11 +27,11 @@ double PrintTotal(ostream &os, const Quote &item, size_t n)
     return ret;
 }
 
-void Derived::fun(const Derived &derived_obj)
-{
-    Base::statmem();
-    Derived::statmem();
-
-    derived_obj.statmem();
-    statmem();
-}
+// void Derived::fun(const Derived &derived_obj)
+// {
+//     Base::statmem();
+//     Derived::statmem();
+//
+//     derived_obj.statmem();
+//     statmem();
+// }

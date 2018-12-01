@@ -1,5 +1,10 @@
+#include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
+
+using std::cout;
+using std::endl;
 
 class Quote
 {
@@ -9,7 +14,11 @@ public:
     std::string isbn() const { return m_strBookNo; }
 
     //返回给定数量书籍的销售总额，派生类负责改写并使用不同的折扣计算算法
-    virtual double net_price(std::size_t n) const { return n * m_price; }
+    virtual double net_price(std::size_t n) const
+    {
+        cout << "Quote net price fun" << endl;
+        return n * m_price;
+    }
     //对析构函数进行动态绑定
     virtual ~Quote() = default;
 
@@ -45,13 +54,4 @@ public:
     double net_price(std::size_t n) const override;
 };
 
-class Base
-{
-public:
-    static void statmem();
-};
-
-class Derived: public Base
-{
-    void fun(const Derived&);
-};
+double PrintTotal(std::ostream &os, const Quote &item, size_t n);
