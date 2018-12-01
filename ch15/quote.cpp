@@ -8,7 +8,7 @@ using std::ostream;
 
 double BulkQuote::net_price(std::size_t n) const
 {
-    cout << "BulkQuote net price fun" << endl;
+
     if (n >= m_quantity)
     {
         return n * (1 - m_discount) * m_price;
