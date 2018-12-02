@@ -3,7 +3,7 @@ SalesData
 Employee
 HasPtr
 X
-.gch
+*.gch
 exersize
 realese
 useStrBlob
