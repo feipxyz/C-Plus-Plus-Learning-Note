@@ -1,0 +1,18 @@
+To learn how to use PyTorch,
+begin with our Getting Started Tutorials.
+The 60-minute blitz is the most common starting point,
+and provides a broad view into how to use PyTorch from the basics all the way into constructing deep neural networks.
+
+Some considerations:
+
+If you would like to do the tutorials interactively via IPython / Jupyter,
+each tutorial has a download link for a Jupyter Notebook and Python source code.
+Additional high-quality examples are available,
+including image classification, unsupervised learning,
+reinforcement learning, machine translation, and many other applications, in PyTorch Examples.
+You can find reference documentation for the PyTorch API and layers in PyTorch Docs or via inline help.
+If you would like the tutorials section improved, please open a github issue here with your feedback.
+Lastly,
+some of the tutorials are marked as requiring the Preview release.
+These are tutorials that use the new functionality from the PyTorch 1.0 Preview.
+Please visit the Get Started section of the PyTorch website for instructions on how to install the latest Preview build before trying these tutorials.
