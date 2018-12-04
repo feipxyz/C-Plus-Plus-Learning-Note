@@ -8,6 +8,7 @@
 
 class StrBlobPtr;
 
+// 实现一个可以共享底层数据的类
 class StrBlob
 {
     friend class StrBlobPtr;
@@ -34,11 +35,13 @@ public:
     StrBlobPtr end();
 
 private:
+    // 使用标准库容器来管理元素
     std::shared_ptr<std::vector<std::string>> m_ptrData;
     // 检查访问是否合法，如果不合法抛出异常
     void check(size_type i, const std::string &msg) const;
 };
 
+// 实现一个伴随指针类
 class StrBlobPtr
 {
 public:

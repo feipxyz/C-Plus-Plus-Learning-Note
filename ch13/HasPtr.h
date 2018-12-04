@@ -1,5 +1,6 @@
 #include <string>
 
+// 类值版本的 HasPtr
 class HasPtr
 {
 public:
@@ -25,3 +26,5 @@ private:
     std::string *m_ps;
     int m_i;
 };
+
+// 类指针版本的 HasPtrP
