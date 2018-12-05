@@ -6,19 +6,33 @@ class HasPtr
 public:
     HasPtr(const std::string &s = std::string()):
         m_ps(new std::string(s)), m_i(0) {}
-
+    // 拷贝构造函数
     HasPtr(const HasPtr &orign):
         m_ps(new std::string(*orign.m_ps)), m_i(orign.m_i) {}
-
-    HasPtr& operator= (const HasPtr &orign)
+    // 移动构造函数
+    HasPtr(HasPtr &&orign) noexcept:
+        m_ps(orign.m_ps), m_i(orign.m_i) { orign.m_ps=nullptr; }
+    // 拷贝赋值运算符
+    HasPtr& operator= (const HasPtr &rhs)
     {
         // 现将对象拷贝到一个临时对象中。这样可以避免拷贝的对象是自身时出现错误。
-        auto newp = new std::string(*orign.m_ps);
+        auto newp = new std::string(*rhs.m_ps);
         delete m_ps;
         m_ps = newp;
-        m_i = orign.m_i;
+        m_i = rhs.m_i;
         return *this;
     }
+    // 移动赋值运算符
+//    HasPtr& operator=(HasPtr &&rhs)
+//    {
+//        if (this != &rhs)
+//        {
+//            delete m_ps;
+//            m_ps = rhs.m_ps;
+//            m_i = rhs.m_i;
+//            rhs.m_ps = nullptr;
+//        }
+//    }
 
     ~HasPtr() { delete m_ps; }
 

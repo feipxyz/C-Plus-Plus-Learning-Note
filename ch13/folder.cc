@@ -16,6 +16,22 @@ m_folders(m.m_folders)
     add_to_folders(m);
 }
 
+Message::Message(Message &&m):
+m_contents(std::move(m.m_contents))
+{
+    move_folders(&m);
+}
+
+Message& Message::operator=(Message &&rhs)
+{
+    if (this != &rhs)
+    {
+        remove_from_folders();
+        m_contents = std::move(rhs.m_contents);
+        move_folders(&rhs);
+    }
+}
+
 Message::~Message()
 {
     remove_from_folders();
@@ -57,6 +73,18 @@ void Message::remove_from_folders()
         f->remove_msg(this);
 
     m_folders.clear();      // 将m_folder清空
+}
+
+// 从本msg移动folder指针
+void Message::move_folders(Message *m)
+{
+    m_folders = std::move(m->m_folders);
+    for (auto f : m_folders)
+    {
+        f->remove_msg(m);
+        f->add_msg(this);
+    }
+    m->m_folders.clear();
 }
 
 Folder::Folder(const Folder &f):

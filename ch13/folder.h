@@ -18,6 +18,9 @@ public:
     explicit Message(const std::string &str = ""): m_contents(str) {}
     Message(const Message&);                //拷贝构造函数
     Message& operator=(const Message&);     //拷贝赋值运算符
+    Message(Message &&);                    //移动构造函数
+    Message& operator=(Message&&);          //移动赋值运算符
+
     ~Message();
 
     //从给定Folder添加/删除本Message
@@ -33,6 +36,7 @@ private:
 
     // Folder类用来将自身加入到Message的Folder中
     void add_folder(Folder *f) { m_folders.insert(f); }
+    void move_folders(Message*);
 };
 
 class Folder

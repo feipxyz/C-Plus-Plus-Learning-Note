@@ -5,6 +5,7 @@
 #include <memory>
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -15,6 +16,8 @@ StrVec::StrVec(const StrVec &s)
     m_first_free = newdata.second;
     m_cap = newdata.second;
 }
+
+
 
 StrVec::~StrVec()
 {
@@ -31,16 +34,78 @@ StrVec& StrVec::operator=(const StrVec &rhs)
     return *this;
 }
 
+
+StrVec& StrVec::operator=(StrVec &&rhs) noexcept
+{
+    if (this != &rhs)
+    {
+        free();
+        m_elements = rhs.m_elements;
+        m_first_free = rhs.m_first_free;
+        m_cap = rhs.m_cap;
+    }
+}
+
 void StrVec::push_back(const string & s)
 {
     chk_n_alloc();      // 确保有空间容纳新元素
     m_alloc.construct(m_first_free++, s);
 }
+
+void StrVec::reverse(size_t n)
+{
+    if (n > capacity())
+        reallocate(n);
+}
+
+
+inline void StrVec::resize(size_t n)
+{
+    if (n > size())
+    {
+        while (size() < n)
+            push_back("");
+    }
+    else if (n < size())
+    {
+        while (size() > n)
+            m_alloc.destroy(--m_first_free);
+    }
+
+}
+
+inline void StrVec::resize(size_t n , const string &s)
+{
+    if (n > size())
+    {
+        while (size() < n)
+            push_back(s);
+    }
+}
+
 void StrVec::reallocate()
 {
     // 新的内存空间为当前空间的两倍
     auto newcapacity = size() ? 2 * size() : 1;
     // 分配新内存
+    auto newdata = m_alloc.allocate(newcapacity);
+    // 将数据从旧内存移动到新内存
+    auto dest = newdata;
+    auto elem = m_elements;
+
+    for (size_t i = 0; i != size(); i++)
+    {
+        m_alloc.construct(dest++, std::move(*elem++));
+    }
+    free();
+
+    m_elements = newdata;
+    m_first_free = dest;
+    m_cap = m_elements + newcapacity;
+}
+
+void StrVec::reallocate(size_t newcapacity)
+{
     auto newdata = m_alloc.allocate(newcapacity);
     // 将数据从旧内存移动到新内存
     auto dest = newdata;

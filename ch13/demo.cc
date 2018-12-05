@@ -33,4 +33,9 @@ void TestStrVec()
     sv1.push_back("student");
     sv1.PrintDebug();
 
+    StrVec sv2{"Are", "you", "Okay"};
+    sv2.PrintDebug();
+
+    initializer_list<int> l = {1, 2, 3};
+
 }
