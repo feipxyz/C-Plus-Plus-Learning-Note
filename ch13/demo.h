@@ -7,5 +7,7 @@
 
 void TestMessage();
 void TestStrVec();
+void TestHasPtr();
+void TestX();
 
 #endif //CH12_DEMO_H

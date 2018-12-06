@@ -11,9 +11,9 @@ using namespace std;
 int main()
 {
 //    TestMessage();
-    TestStrVec();
-
-
+//    TestStrVec();
+//    TestHasPtr();
+    TestX();
 
 
     return 0;

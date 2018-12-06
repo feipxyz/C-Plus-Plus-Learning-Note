@@ -46,10 +46,16 @@ StrVec& StrVec::operator=(StrVec &&rhs) noexcept
     }
 }
 
-void StrVec::push_back(const string & s)
+void StrVec::push_back(const string &s)
 {
     chk_n_alloc();      // 确保有空间容纳新元素
     m_alloc.construct(m_first_free++, s);
+}
+
+void StrVec::push_back(std::string &&s)
+{
+    chk_n_alloc();
+    m_alloc.construct(m_first_free++, std::move(s));
 }
 
 void StrVec::reverse(size_t n)
@@ -122,11 +128,6 @@ void StrVec::reallocate(size_t newcapacity)
     m_cap = m_elements + newcapacity;
 }
 
-pair<string*, string*> StrVec::alloc_n_copy(const std::string *b, const std::string *e)
-{
-    auto data = m_alloc.allocate(e - b);
-    return {data, uninitialized_copy(b, e, data)};
-}
 
 void StrVec::PrintDebug() const
 {

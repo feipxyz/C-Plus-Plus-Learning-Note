@@ -9,8 +9,6 @@
 #include <memory>
 #include <vector>
 
-
-
 class StrVec
 {
 public:
@@ -22,7 +20,8 @@ public:
     StrVec& operator=(StrVec &&) noexcept;   // 移动赋值运算符
     ~StrVec();
 
-    void push_back(const std::string&);
+    void push_back(const std::string&);     // 拷贝
+    void push_back(std::string&&);          // 移动
     size_t size() const { return m_first_free - m_elements; }
     size_t capacity() const { return m_cap - m_elements; }
     std::string* begin() const { return m_elements; }
@@ -55,6 +54,12 @@ inline StrVec::StrVec(const std::initializer_list<std::string> &il)
     m_elements = newdata.first;
     m_first_free = newdata.second;
     m_cap = newdata.second;
+}
+
+inline std::pair<std::string*, std::string*> StrVec::alloc_n_copy(const std::string *b, const std::string *e)
+{
+    auto data = m_alloc.allocate(e - b);
+    return {data, uninitialized_copy(b, e, data)};
 }
 
 inline StrVec::StrVec(StrVec &&s) noexcept:    // 移动构造函数，不应该抛出任何异常

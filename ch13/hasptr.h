@@ -1,4 +1,6 @@
 #include <string>
+#include <algorithm>
+#include <iostream>
 
 // 类值版本的 HasPtr
 class HasPtr
@@ -11,9 +13,16 @@ public:
         m_ps(new std::string(*orign.m_ps)), m_i(orign.m_i) {}
     // 移动构造函数
     HasPtr(HasPtr &&orign) noexcept:
-        m_ps(orign.m_ps), m_i(orign.m_i) { orign.m_ps=nullptr; }
+        m_ps(orign.m_ps), m_i(orign.m_i) { orign.m_ps=nullptr;}
+
+    // 统一了拷贝与移动，但性能不好
+//    HasPtr& operator=(HasPtr rhs)
+//    {
+//        std::swap(*this, rhs);
+//        return *this;
+//    }
     // 拷贝赋值运算符
-    HasPtr& operator= (const HasPtr &rhs)
+    HasPtr& operator=(const HasPtr &rhs)
     {
         // 现将对象拷贝到一个临时对象中。这样可以避免拷贝的对象是自身时出现错误。
         auto newp = new std::string(*rhs.m_ps);
@@ -23,16 +32,18 @@ public:
         return *this;
     }
     // 移动赋值运算符
-//    HasPtr& operator=(HasPtr &&rhs)
-//    {
-//        if (this != &rhs)
-//        {
-//            delete m_ps;
-//            m_ps = rhs.m_ps;
-//            m_i = rhs.m_i;
-//            rhs.m_ps = nullptr;
-//        }
-//    }
+    HasPtr& operator=(HasPtr &&rhs)
+    {
+        if (this != &rhs)
+        {
+            delete m_ps;
+            m_ps = rhs.m_ps;
+            m_i = rhs.m_i;
+            rhs.m_ps = nullptr;
+            rhs.m_i = 0;
+        }
+        return *this;
+    }
 
     ~HasPtr() { delete m_ps; }
 
@@ -64,7 +75,7 @@ public:
     }
     ~HasPtrP()
     {
-        if (--(*use) == 0)
+        if (--(*m_use) == 0)
         {
             delete m_ps;
             delete m_use;

@@ -6,6 +6,8 @@
 #include <iostream>
 #include "strvec.h"
 #include "demo.h"
+#include "hasptr.h"
+#include "X.h"
 
 using namespace std;
 
@@ -24,6 +26,14 @@ void TestMessage()
     fld_two.DebugPrint();
 }
 
+
+void TestHasPtr()
+{
+    HasPtr hp1("abc");
+    HasPtr hp2;
+    hp2 = hp1;
+}
+
 void TestStrVec()
 {
     StrVec sv1;
@@ -38,4 +48,14 @@ void TestStrVec()
 
     initializer_list<int> l = {1, 2, 3};
 
+}
+
+void TestX()
+{
+//    X x1("abc");
+//    X x2;
+    X x3 = string("abc");
+    X x2 = x3;
+//    string str = "name";
+//    x2.test(str);
 }
