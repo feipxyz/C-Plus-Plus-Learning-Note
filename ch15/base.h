@@ -1,16 +1,35 @@
 #include <iostream>
 
-
+class Pal;
 class Base
 {
+    friend class Pal;
 public:
     void PubMem();
+    static void statmen()
+    {
+        std::cout << "Base static fun" << std::endl;
+    }
 
 protected:
     int m_protMem;
 
 private:
     char m_privMem;
+};
+
+
+class Derived: public Base
+{
+public:
+    void fun(const Derived &obj)
+    {
+        std::cout << "Derived fun" << std::endl;
+        Base::statmen();
+        Derived::statmen();
+        obj.statmen();
+        statmen();
+    }
 };
 
 class PubDerv: public Base
@@ -51,6 +70,15 @@ private:
     int m_i;
 };
 
-void clobber(Sneaky& s) { s.m_i = s.m_protMem = 0; }
+class Pal
+{
+public:
+    int f1(Base b) { return b.m_protMem; }
+    int f2(Sneaky s) { return s.m_protMem; }
+    // 也是正确的，对基类的访问由基类本身控制，即使对派生类中的基类部分也是如此
+    int f3(Sneaky s) { return s.m_privMem; }
+};
+
+void clobber(Sneaky& s);
 // 派生类的成员或友元只能通过派生类对象来访问积累的受保护成员。
 // void clobber(Base& b) { b.m_protMem = 0; }
