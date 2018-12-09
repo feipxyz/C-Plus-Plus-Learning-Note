@@ -11,6 +11,7 @@ void Quote::Debug() const
 
 double BulkQuote::NetPrice(std::size_t n) const
 {
+    std::cout << "BulkQuote net price fun" << std::endl;
     if (n >= m_quantity)
     {
         return n * (1 - m_discount) * m_price;

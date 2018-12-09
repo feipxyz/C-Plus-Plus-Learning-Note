@@ -1,10 +1,11 @@
 //
 // Created by pengfei on 18-12-7.
 //
+#include <iostream>
 #include "student.h"
 #include "quote.h"
-#include <iostream>
 #include "base.h"
+#include "basket.h"
 
 using namespace std;
 
@@ -35,4 +36,17 @@ void TestBase()
 {
     Derived d1;
     d1.fun(d1);
+}
+
+void TestBasket()
+{
+    Quote book1("no1", 10.0), book2("no2", 12), book3("no1", 10.0);
+    BulkQuote book4("no4", 20, 10, 0.1);
+    Basket basket;
+    basket.AddItem(book1);
+    basket.AddItem(book2);
+    basket.AddItem(book3);
+    basket.AddItem(book4);
+
+    basket.TotalReceipt(cout);
 }
